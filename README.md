@@ -56,10 +56,10 @@ module "vpn" {
 - Click on "Add Server" Button
 
 - Config Server
-  **name**: anything
-  **port**: default must be 12383 (must be match with ingress policy)
-  **DNS Server**: Default 8.8.8.8
-  **Virtual Network**: Leave Default (CIDR must be avalible)
+  - **name**: anything
+  - **port**: default must be 12383 (must be match with ingress policy)
+  - **DNS Server**: Default 8.8.8.8
+  - **Virtual Network**: Leave Default (CIDR must be avalible)
 
 ![Add Server](docs/setup_add_server.png "setup_add_server")
 
@@ -86,8 +86,10 @@ module "vpn" {
 
 ### Config User
 
-  **Name**: anything
-  **Pin**: password to access VPN
+- Config User
+  - **Name**: anything
+  - **Pin**: password to access VPN
+
 ![ConfigUser](docs/user_config.png "user_config")
 
 ### Download VPN File
