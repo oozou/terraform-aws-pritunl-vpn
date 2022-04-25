@@ -5,15 +5,13 @@ Terraform module with create instance with Pritunl VPN on AWS.
 ## Usage
 
 ```terraform
-module "vpn" {
-  source = "git@github.com:<repository_name>/terraform-aws-pritunl-vpn.git?ref=v0.0.0"
-  resource "aws_key_pair" "maintainer" {
+resource "aws_key_pair" "maintainer" {
   key_name   = "example-key"
   public_key = "ssh-rsa AAAAXXX"
 }
 
 module "vpn" {
-  source      = "../../terraform-aws-pritunl-vpn"
+  source = "git@github.com:<repository_name>/terraform-aws-pritunl-vpn.git?ref=v0.0.0"
   prefix      = "example"
   environment = "dev"
   vpc_id      = "vpc-xxx"
@@ -22,8 +20,6 @@ module "vpn" {
   tags = {
     workspace = "900-test"
   }
-}
-
 }
 ```
 
