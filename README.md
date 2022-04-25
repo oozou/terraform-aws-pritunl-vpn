@@ -57,7 +57,7 @@ module "vpn" {
 
 - Config Server
   **name**: anything
-  **port**: 12383must be match with ingress policy ()
+  **port**: default must be 12383 (must be match with ingress policy)
   **DNS Server**: Default 8.8.8.8
   **Virtual Network**: Leave Default (CIDR must be avalible)
 
