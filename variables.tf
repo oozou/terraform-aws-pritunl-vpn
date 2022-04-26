@@ -17,7 +17,7 @@ variable "tags" {
 variable "instance_type" {
   description = "(Optional) The instance type to use for the instance. Updates to this field will trigger a stop/start of the EC2 instance."
   type        = string
-  default     = "t2.micro"
+  default     = "t2.medium"
 }
 
 variable "security_group_ingress_rules" {
