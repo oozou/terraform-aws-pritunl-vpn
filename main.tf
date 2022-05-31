@@ -5,7 +5,7 @@ module "ec2" {
   name                         = "pritunl-vpn"
   is_create_eip                = true
   is_batch_run                 = false
-  ami                          = data.aws_ami.amazon_linux.id
+  ami                          = var.ami == "" ? data.aws_ami.amazon_linux.id : var.ami
   vpc_id                       = var.vpc_id
   subnet_id                    = var.subnet_id
   key_name                     = var.key_name
