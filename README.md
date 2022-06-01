@@ -5,15 +5,13 @@ Terraform module with create instance with Pritunl VPN on AWS.
 ## Usage
 
 ```terraform
-module "vpn" {
-  source = "git@github.com:<repository_name>/terraform-aws-pritunl-vpn.git?ref=v0.0.0"
-  resource "aws_key_pair" "maintainer" {
+resource "aws_key_pair" "maintainer" {
   key_name   = "example-key"
   public_key = "ssh-rsa AAAAXXX"
 }
 
 module "vpn" {
-  source      = "../../terraform-aws-pritunl-vpn"
+  source = "git@github.com:<repository_name>/terraform-aws-pritunl-vpn.git?ref=v0.0.0"
   prefix      = "example"
   environment = "dev"
   vpc_id      = "vpc-xxx"
@@ -22,8 +20,6 @@ module "vpn" {
   tags = {
     workspace = "900-test"
   }
-}
-
 }
 ```
 
@@ -56,10 +52,10 @@ module "vpn" {
 - Click on "Add Server" Button
 
 - Config Server
-  **name**: anything
-  **port**: 12383must be match with ingress policy ()
-  **DNS Server**: Default 8.8.8.8
-  **Virtual Network**: Leave Default (CIDR must be avalible)
+  - **name**: anything
+  - **port**: default must be 12383 (must be match with ingress policy)
+  - **DNS Server**: Default 8.8.8.8
+  - **Virtual Network**: Leave Default (CIDR must be avalible)
 
 ![Add Server](docs/setup_add_server.png "setup_add_server")
 
@@ -86,8 +82,10 @@ module "vpn" {
 
 ### Config User
 
-  **Name**: anything
-  **Pin**: password to access VPN
+- Config User
+  - **Name**: anything
+  - **Pin**: password to access VPN
+
 ![ConfigUser](docs/user_config.png "user_config")
 
 ### Download VPN File
@@ -119,14 +117,25 @@ module "vpn" {
 
 | Name | Type |
 |------|------|
-| [aws_key_pair.deployer](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/key_pair) | resource |
 | [aws_ami.amazon_linux](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/ami) | data source |
 
 ## Inputs
 
-No inputs.
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| <a name="input_additional_sg_attacment_ids"></a> [additional\_sg\_attacment\_ids](#input\_additional\_sg\_attacment\_ids) | (Optional) The ID of the security group. | `list(string)` | `[]` | no |
+| <a name="input_environment"></a> [environment](#input\_environment) | Environment Variable used as a prefix | `string` | n/a | yes |
+| <a name="input_instance_type"></a> [instance\_type](#input\_instance\_type) | (Optional) The instance type to use for the instance. Updates to this field will trigger a stop/start of the EC2 instance. | `string` | `"t2.medium"` | no |
+| <a name="input_key_name"></a> [key\_name](#input\_key\_name) | Key name of the Key Pair to use for the vpn instance; which can be managed using | `string` | n/a | yes |
+| <a name="input_prefix"></a> [prefix](#input\_prefix) | The prefix name of customer to be displayed in AWS console and resource | `string` | n/a | yes |
+| <a name="input_security_group_ingress_rules"></a> [security\_group\_ingress\_rules](#input\_security\_group\_ingress\_rules) | Map of ingress and any specific/overriding attributes to be created | `any` | <pre>{<br>  "allow_to_config_vpn": {<br>    "cidr_blocks": [<br>      "0.0.0.0/0"<br>    ],<br>    "port": "443"<br>  },<br>  "allow_to_connect_vpn": {<br>    "cidr_blocks": [<br>      "0.0.0.0/0"<br>    ],<br>    "port": "12383",<br>    "protocol": "udp"<br>  },<br>  "allow_to_ssh": {<br>    "cidr_blocks": [<br>      "0.0.0.0/0"<br>    ],<br>    "port": "22"<br>  }<br>}</pre> | no |
+| <a name="input_subnet_id"></a> [subnet\_id](#input\_subnet\_id) | The ID of the subnet to deploy vpn relate to VPC | `string` | n/a | yes |
+| <a name="input_tags"></a> [tags](#input\_tags) | Tags to add more; default tags contian {terraform=true, environment=var.environment} | `map(string)` | `{}` | no |
+| <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | The ID of the VPC | `string` | n/a | yes |
 
 ## Outputs
 
-No outputs.
+| Name | Description |
+|------|-------------|
+| <a name="output_public_ip"></a> [public\_ip](#output\_public\_ip) | public ip for access vpn server |
 <!-- END_TF_DOCS -->
