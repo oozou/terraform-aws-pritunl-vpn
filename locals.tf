@@ -6,4 +6,6 @@ locals {
     },
     var.tags
   )
+
+  name = format("%s-%s-%s", var.prefix, var.environment, "pritunl-vpn")
 }

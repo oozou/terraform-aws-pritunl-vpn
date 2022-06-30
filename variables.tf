@@ -40,14 +40,26 @@ variable "security_group_ingress_rules" {
   }
 }
 
+variable "availability_zones" {
+  description = "Availability zones for Pritunl VPN server"
+  type        = list(string)
+  default     = ["ap-southeast-1a", "ap-southeast-1b", "ap-southeast-1c"]
+}
+
+variable "is_create_security_group" {
+  description = "Flag to toggle security group creation"
+  type        = bool
+  default     = true
+}
+
 variable "vpc_id" {
   description = "The ID of the VPC"
   type        = string
 }
 
-variable "subnet_id" {
-  description = "The ID of the subnet to deploy vpn relate to VPC"
-  type        = string
+variable "subnet_ids" {
+  description = "The List of the subnet ID to deploy vpn relate to VPC"
+  type        = list(string)
 }
 
 variable "key_name" {
@@ -65,4 +77,16 @@ variable "ami" {
   type        = string
   description = "(Optional) AMI to use for the instance. Required unless launch_template is specified and the Launch Template specifes an AMI. If an AMI is specified in the Launch Template, setting ami will override the AMI specified in the Launch Template"
   default     = ""
+}
+
+variable "disk_size" {
+  description = "Disk size for Pritunl VPN server"
+  type        = number
+  default     = 80
+}
+
+variable "disk_type" {
+  description = "Disk type for Pritunl VPN server"
+  type        = string
+  default     = "gp3"
 }
