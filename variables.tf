@@ -40,11 +40,11 @@ variable "security_group_ingress_rules" {
   }
 }
 
-variable "availability_zones" {
-  description = "Availability zones for Pritunl VPN server"
-  type        = list(string)
-  default     = ["ap-southeast-1a", "ap-southeast-1b", "ap-southeast-1c"]
-}
+# variable "availability_zones" {
+#   description = "Availability zones for Pritunl VPN server"
+#   type        = list(string)
+#   default     = ["ap-southeast-1a", "ap-southeast-1b", "ap-southeast-1c"]
+# }
 
 variable "is_create_security_group" {
   description = "Flag to toggle security group creation"
@@ -79,14 +79,14 @@ variable "ami" {
   default     = ""
 }
 
-variable "disk_size" {
-  description = "Disk size for Pritunl VPN server"
-  type        = number
-  default     = 80
-}
+# variable "disk_size" {
+#   description = "Disk size for Pritunl VPN server"
+#   type        = number
+#   default     = 80
+# }
 
-variable "disk_type" {
-  description = "Disk type for Pritunl VPN server"
-  type        = string
-  default     = "gp3"
-}
+# variable "disk_type" {
+#   description = "Disk type for Pritunl VPN server"
+#   type        = string
+#   default     = "gp3"
+# }
