@@ -39,42 +39,11 @@ module "launch_template" {
   ami_id                 = var.ami == "" ? data.aws_ami.amazon_linux.id : var.ami
   key_name               = var.key_name
   instance_type          = var.instance_type
-  vpc_security_group_ids = concat(var.additional_sg_attacment_ids, var.is_create_security_group ? [aws_security_group.this[0].id] : [])
+  vpc_security_group_ids = local.security_group_ids
   metadata_options = {
     http_endpoint               = "enabled"
     http_tokens                 = "required"
     http_put_response_hop_limit = 1
   }
   tags = { workspace = "test-workspace" }
-}
-
-# Auto Scaling Group
-resource "aws_autoscaling_group" "this" {
-  name_prefix = local.name
-  # availability_zones = var.availability_zones
-  vpc_zone_identifier = var.subnet_ids
-  desired_capacity    = 1
-  max_size            = 1
-  min_size            = 1
-
-  # launch_configuration = aws_launch_configuration.this.name
-  launch_template {
-    id      = module.launch_template.id
-    version = "$Latest"
-  }
-
-  # load_balancers = [aws_lb.this.id]
-  target_group_arns = [aws_lb_target_group.public.arn, aws_lb_target_group.private.arn]
-  dynamic "tag" {
-    for_each = merge(local.tags, { Name = local.name })
-    content {
-      key                 = tag.key
-      value               = tag.value
-      propagate_at_launch = true
-    }
-  }
-
-  lifecycle {
-    create_before_destroy = true
-  }
 }
