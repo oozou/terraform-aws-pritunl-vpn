@@ -12,18 +12,18 @@ resource "aws_lb" "public" {
 }
 
 resource "aws_lb_target_group" "public" {
-  count    = length(var.public_rule)
-  name     = format("%s-public-tg", local.name)
-  port     = var.public_rule[count.index].port
-  protocol = var.public_rule[count.index].protocol
+  count    = length(local.public_rule)
+  name     = format("%s-public-%s", local.name, count.index)
+  port     = local.public_rule[count.index].port
+  protocol = local.public_rule[count.index].protocol
   vpc_id   = var.vpc_id
 }
 
 resource "aws_lb_listener" "public" {
-  count             = length(var.public_rule)
+  count             = length(local.public_rule)
   load_balancer_arn = aws_lb.public.arn
-  port              = var.public_rule[count.index].port
-  protocol          = var.public_rule[count.index].protocol
+  port              = local.public_rule[count.index].port
+  protocol          = local.public_rule[count.index].protocol
 
   default_action {
     type             = "forward"
@@ -46,18 +46,18 @@ resource "aws_lb" "private" {
 }
 
 resource "aws_lb_target_group" "private" {
-  count    = length(var.private_rule)
-  name     = format("%s-private-tg", local.name)
-  port     = var.private_rule[count.index].port
-  protocol = var.private_rule[count.index].protocol
+  count    = length(local.private_rule)
+  name     = format("%s-private-%s", local.name, count.index)
+  port     = local.private_rule[count.index].port
+  protocol = local.private_rule[count.index].protocol
   vpc_id   = var.vpc_id
 }
 
 resource "aws_lb_listener" "private" {
-  count             = length(var.private_rule)
+  count             = length(local.private_rule)
   load_balancer_arn = aws_lb.private.arn
-  port              = var.private_rule[count.index].port
-  protocol          = var.private_rule[count.index].protocol
+  port              = local.private_rule[count.index].port
+  protocol          = local.private_rule[count.index].protocol
 
   default_action {
     type             = "forward"

@@ -1,10 +1,14 @@
 # Launch Configuration Template
 module "launch_template" {
-  source                 = "git::ssh://git@github.com/oozou/terraform-aws-launch-template.git?ref=v1.0.2"
-  prefix                 = var.prefix
-  environment            = var.environment
-  name                   = "pritunl-vpn"
-  user_data              = base64encode(templatefile("${path.module}/template/user_data.sh", { efs_dns_name = module.efs.dns_name }))
+  source      = "git::ssh://git@github.com/oozou/terraform-aws-launch-template.git?ref=v1.0.2"
+  prefix      = var.prefix
+  environment = var.environment
+  name        = "pritunl-vpn"
+  user_data = base64encode(templatefile("${path.module}/template/user_data.sh",
+    {
+      efs_dns_name   = module.efs.dns_name
+      public_address = var.is_create_route53_reccord ? aws_route53_record.public[0].name : aws_lb.public.dns_name
+  }))
   iam_instance_profile   = { arn : aws_iam_instance_profile.this.arn }
   ami_id                 = var.ami == "" ? data.aws_ami.amazon_linux.id : var.ami
   key_name               = var.key_name

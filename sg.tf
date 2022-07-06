@@ -21,7 +21,7 @@ resource "aws_security_group" "this" {
 }
 
 resource "aws_security_group_rule" "ingress" {
-  for_each = var.is_create_security_group ? var.security_group_ingress_rules : null
+  for_each = var.is_create_security_group ? local.security_group_ingress_rules : null
 
   type              = "ingress"
   from_port         = lookup(each.value, "from_port", lookup(each.value, "port", null))

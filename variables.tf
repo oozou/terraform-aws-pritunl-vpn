@@ -80,10 +80,12 @@ variable "public_rule" {
     port     = number
     protocol = string
   }))
-  default = [{
-    port     = 12383
-    protocol = "UDP"
-  }]
+  default = [
+    {
+      port     = 12383
+      protocol = "UDP"
+    }
+  ]
 }
 
 variable "private_rule" {
@@ -92,8 +94,41 @@ variable "private_rule" {
     port     = number
     protocol = string
   }))
-  default = [{
-    port     = 443
-    protocol = "TCP"
-  }]
+  default = []
+}
+
+variable "is_create_route53_reccord" {
+  description = "if true will create route53 reccord for vpn, vpn console"
+  type        = bool
+  default     = false
+}
+
+variable "public_lb_vpn_domain" {
+  description = "domain of vpn output will be <var.vpn_domain>.<var.route53_zone_name>"
+  type        = string
+  default     = "vpn"
+}
+
+variable "private_lb_vpn_domain" {
+  description = "domain of vpn console output will be <var.vpn_domain>.<var.route53_zone_name>"
+  type        = string
+  default     = "vpn-console"
+}
+
+variable "route53_zone_name" {
+  description = "This is the name of the hosted zone"
+  type        = string
+  default     = ""
+}
+
+variable "is_enabled_https_public" {
+  description = "if true will enable https to public loadbalancer else enable to private loadbalancer"
+  type        = bool
+  default     = true
+}
+
+variable "custom_https_allow_cidr" {
+  description = "cidr block for config pritunl vpn"
+  type        = list(string)
+  default     = null
 }
