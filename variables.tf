@@ -40,12 +40,6 @@ variable "security_group_ingress_rules" {
   }
 }
 
-# variable "availability_zones" {
-#   description = "Availability zones for Pritunl VPN server"
-#   type        = list(string)
-#   default     = ["ap-southeast-1a", "ap-southeast-1b", "ap-southeast-1c"]
-# }
-
 variable "is_create_security_group" {
   description = "Flag to toggle security group creation"
   type        = bool
@@ -65,6 +59,7 @@ variable "subnet_ids" {
 variable "key_name" {
   description = "Key name of the Key Pair to use for the vpn instance; which can be managed using"
   type        = string
+  default     = null
 }
 
 variable "additional_sg_attacment_ids" {
