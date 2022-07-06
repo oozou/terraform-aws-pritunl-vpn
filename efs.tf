@@ -1,6 +1,6 @@
 # EFS
 module "efs" {
-  source = "git::ssh://git@github.com/oozou/terraform-aws-efs.git?ref=v1.0.0"
+  source = "git::ssh://git@github.com/oozou/terraform-aws-efs.git?ref=feat/support-ip-mount"
 
   prefix      = var.prefix
   environment = var.environment
@@ -19,7 +19,6 @@ module "efs" {
       }
     }
   }
-
   vpc_id  = var.vpc_id
   subnets = var.subnet_ids
 }

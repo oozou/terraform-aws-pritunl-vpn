@@ -12,20 +12,22 @@ resource "aws_lb" "public" {
 }
 
 resource "aws_lb_target_group" "public" {
+  count    = length(var.public_rule)
   name     = format("%s-public-tg", local.name)
-  port     = 12383
-  protocol = "UDP"
+  port     = var.public_rule[count.index].port
+  protocol = var.public_rule[count.index].protocol
   vpc_id   = var.vpc_id
 }
 
-resource "aws_lb_listener" "vpn" {
+resource "aws_lb_listener" "public" {
+  count             = length(var.public_rule)
   load_balancer_arn = aws_lb.public.arn
-  port              = "12383"
-  protocol          = "UDP"
+  port              = var.public_rule[count.index].port
+  protocol          = var.public_rule[count.index].protocol
 
   default_action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.public.arn
+    target_group_arn = aws_lb_target_group.public[count.index].arn
   }
 }
 
@@ -44,19 +46,21 @@ resource "aws_lb" "private" {
 }
 
 resource "aws_lb_target_group" "private" {
+  count    = length(var.private_rule)
   name     = format("%s-private-tg", local.name)
-  port     = 443
-  protocol = "TCP"
+  port     = var.private_rule[count.index].port
+  protocol = var.private_rule[count.index].protocol
   vpc_id   = var.vpc_id
 }
 
-resource "aws_lb_listener" "https" {
+resource "aws_lb_listener" "private" {
+  count             = length(var.private_rule)
   load_balancer_arn = aws_lb.private.arn
-  port              = "443"
-  protocol          = "TCP"
+  port              = var.private_rule[count.index].port
+  protocol          = var.private_rule[count.index].protocol
 
   default_action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.private.arn
+    target_group_arn = aws_lb_target_group.private[count.index].arn
   }
 }

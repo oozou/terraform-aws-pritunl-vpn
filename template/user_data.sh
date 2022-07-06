@@ -14,7 +14,7 @@ fi
 sudo /usr/local/bin/pip3 install botocore
 sudo yum install -y amazon-efs-utils
 sudo mkdir /efs
-sudo mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport 10.105.2.4:/ /efs
+sudo mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport ${efs_dns_name}:/ /efs
 sudo tee /etc/yum.repos.d/mongodb-org-5.0.repo << EOF
 [mongodb-org-5.0]
 name=MongoDB Repository

@@ -12,3 +12,9 @@ output "efs_id" {
   description = "The ID that identifies the file system for pritunl vpn"
   value       = module.efs.id
 }
+
+
+output "dns_name" {
+  description = "The DNS name for the filesystem"
+  value       = module.efs.dns_name
+}

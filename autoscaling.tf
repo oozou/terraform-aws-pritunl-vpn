@@ -1,21 +1,17 @@
-
 # Auto Scaling Group
 resource "aws_autoscaling_group" "this" {
-  name_prefix = local.name
-  # availability_zones = var.availability_zones
+  name_prefix         = local.name
   vpc_zone_identifier = var.subnet_ids
   desired_capacity    = 1
-  max_size            = 1
+  max_size            = 1 #fix 1 to avoid race condition (if not move to document db for multi read/write)
   min_size            = 1
 
-  # launch_configuration = aws_launch_configuration.this.name
   launch_template {
     id      = module.launch_template.id
     version = "$Latest"
   }
 
-  # load_balancers = [aws_lb.this.id]
-  target_group_arns = [aws_lb_target_group.public.arn, aws_lb_target_group.private.arn]
+  target_group_arns = concat(aws_lb_target_group.public.*.arn, aws_lb_target_group.private.*.arn)
   dynamic "tag" {
     for_each = merge(local.tags, { Name = local.name })
     content {
@@ -27,5 +23,18 @@ resource "aws_autoscaling_group" "this" {
 
   lifecycle {
     create_before_destroy = true
+  }
+}
+
+
+resource "aws_autoscaling_policy" "this" {
+  name                   = "pritunl-vpn-auto-scaling-policy"
+  policy_type            = "TargetTrackingScaling"
+  autoscaling_group_name = aws_autoscaling_group.this.name
+  target_tracking_configuration {
+    predefined_metric_specification {
+      predefined_metric_type = "ASGAverageCPUUtilization"
+    }
+    target_value = 50.0
   }
 }

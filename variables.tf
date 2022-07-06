@@ -79,14 +79,26 @@ variable "ami" {
   default     = ""
 }
 
-# variable "disk_size" {
-#   description = "Disk size for Pritunl VPN server"
-#   type        = number
-#   default     = 80
-# }
+variable "public_rule" {
+  description = "public rule for run connect vpn"
+  type = list(object({
+    port     = number
+    protocol = string
+  }))
+  default = [{
+    port     = 12383
+    protocol = "UDP"
+  }]
+}
 
-# variable "disk_type" {
-#   description = "Disk type for Pritunl VPN server"
-#   type        = string
-#   default     = "gp3"
-# }
+variable "private_rule" {
+  description = "private rule for run connect vpn"
+  type = list(object({
+    port     = number
+    protocol = string
+  }))
+  default = [{
+    port     = 443
+    protocol = "TCP"
+  }]
+}
