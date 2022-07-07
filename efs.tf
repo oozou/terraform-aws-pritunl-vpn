@@ -20,5 +20,5 @@ module "efs" {
     }
   }
   vpc_id  = var.vpc_id
-  subnets = var.subnet_ids
+  subnets = var.private_subnet_ids
 }

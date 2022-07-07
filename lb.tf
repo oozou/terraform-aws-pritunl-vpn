@@ -3,7 +3,7 @@ resource "aws_lb" "public" {
   name               = format("%s-public-lb", local.name)
   internal           = false
   load_balancer_type = "network"
-  subnets            = var.subnet_ids
+  subnets            = var.public_subnet_ids
 
   tags = merge(
     { Name = format("%s-lb", local.name) },
@@ -37,7 +37,7 @@ resource "aws_lb" "private" {
   name               = format("%s-private-lb", local.name)
   internal           = true
   load_balancer_type = "network"
-  subnets            = var.subnet_ids
+  subnets            = var.private_subnet_ids
 
   tags = merge(
     { Name = format("%s-lb", local.name) },

@@ -20,17 +20,15 @@ module "vpn" {
 
 ## HOW TO SET UP PRITUNL-VPN
 
-### GET SETUP KEY AND USERNAME PASSWORD
+### GO TO SSM CONSOLE FOR SESSION MANAGER
+
+![SessionManager](docs/setup_session_manager.png "setup_session_manager")
 
 ```shell
-  ssh ec2-user@<vpn-public-ip> #(optional) -i <private_key_path>
-  sudo pritunl setup-key # save for fill in ui (only first setup)
   sudo pritunl default-password # save for first login
 ```
 
 ### Fill Setup Key, User from previous step
-
-![SetupKey](docs/setup_setup_key.png "setup_setup_key")
 
 ![Login](docs/setup_login.png "setup_login")
 
@@ -85,7 +83,17 @@ module "vpn" {
 
 ### Download VPN File
 
+## Set VPN Server to Private
+
+```terraform
+module "pritunl_vpn" {
+  . . .
+  is_enabled_https_public = false
+}
+```
+
 ![DownloadConfig](docs/user_download_vpn_file.png "user_download_vpn_file")
+
 
 
 <!-- BEGIN_TF_DOCS -->
@@ -125,11 +133,15 @@ module "vpn" {
 | [aws_lb_listener.public](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_listener) | resource |
 | [aws_lb_target_group.private](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_target_group) | resource |
 | [aws_lb_target_group.public](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_target_group) | resource |
+| [aws_route53_record.private](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route53_record) | resource |
+| [aws_route53_record.public](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route53_record) | resource |
 | [aws_security_group.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group) | resource |
 | [aws_security_group_rule.ingress](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule) | resource |
 | [aws_ami.amazon_linux](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/ami) | data source |
 | [aws_iam_policy_document.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_iam_policy_document.this_assume_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
+| [aws_route53_zone.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/route53_zone) | data source |
+| [aws_vpc.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/vpc) | data source |
 
 ## Inputs
 
@@ -137,13 +149,19 @@ module "vpn" {
 |------|-------------|------|---------|:--------:|
 | <a name="input_additional_sg_attacment_ids"></a> [additional\_sg\_attacment\_ids](#input\_additional\_sg\_attacment\_ids) | (Optional) The ID of the security group. | `list(string)` | `[]` | no |
 | <a name="input_ami"></a> [ami](#input\_ami) | (Optional) AMI to use for the instance. Required unless launch\_template is specified and the Launch Template specifes an AMI. If an AMI is specified in the Launch Template, setting ami will override the AMI specified in the Launch Template | `string` | `""` | no |
+| <a name="input_custom_https_allow_cidr"></a> [custom\_https\_allow\_cidr](#input\_custom\_https\_allow\_cidr) | cidr block for config pritunl vpn | `list(string)` | `null` | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | Environment Variable used as a prefix | `string` | n/a | yes |
 | <a name="input_instance_type"></a> [instance\_type](#input\_instance\_type) | (Optional) The instance type to use for the instance. Updates to this field will trigger a stop/start of the EC2 instance. | `string` | `"t2.medium"` | no |
+| <a name="input_is_create_route53_reccord"></a> [is\_create\_route53\_reccord](#input\_is\_create\_route53\_reccord) | if true will create route53 reccord for vpn, vpn console | `bool` | `false` | no |
 | <a name="input_is_create_security_group"></a> [is\_create\_security\_group](#input\_is\_create\_security\_group) | Flag to toggle security group creation | `bool` | `true` | no |
-| <a name="input_key_name"></a> [key\_name](#input\_key\_name) | Key name of the Key Pair to use for the vpn instance; which can be managed using | `string` | n/a | yes |
+| <a name="input_is_enabled_https_public"></a> [is\_enabled\_https\_public](#input\_is\_enabled\_https\_public) | if true will enable https to public loadbalancer else enable to private loadbalancer | `bool` | `true` | no |
+| <a name="input_key_name"></a> [key\_name](#input\_key\_name) | Key name of the Key Pair to use for the vpn instance; which can be managed using | `string` | `null` | no |
 | <a name="input_prefix"></a> [prefix](#input\_prefix) | The prefix name of customer to be displayed in AWS console and resource | `string` | n/a | yes |
-| <a name="input_private_rule"></a> [private\_rule](#input\_private\_rule) | private rule for run connect vpn | <pre>list(object({<br>    port     = number<br>    protocol = string<br>  }))</pre> | <pre>[<br>  {<br>    "port": 443,<br>    "protocol": "TCP"<br>  }<br>]</pre> | no |
+| <a name="input_private_lb_vpn_domain"></a> [private\_lb\_vpn\_domain](#input\_private\_lb\_vpn\_domain) | domain of vpn console output will be <var.vpn\_domain>.<var.route53\_zone\_name> | `string` | `"vpn-console"` | no |
+| <a name="input_private_rule"></a> [private\_rule](#input\_private\_rule) | private rule for run connect vpn | <pre>list(object({<br>    port     = number<br>    protocol = string<br>  }))</pre> | `[]` | no |
+| <a name="input_public_lb_vpn_domain"></a> [public\_lb\_vpn\_domain](#input\_public\_lb\_vpn\_domain) | domain of vpn output will be <var.vpn\_domain>.<var.route53\_zone\_name> | `string` | `"vpn"` | no |
 | <a name="input_public_rule"></a> [public\_rule](#input\_public\_rule) | public rule for run connect vpn | <pre>list(object({<br>    port     = number<br>    protocol = string<br>  }))</pre> | <pre>[<br>  {<br>    "port": 12383,<br>    "protocol": "UDP"<br>  }<br>]</pre> | no |
+| <a name="input_route53_zone_name"></a> [route53\_zone\_name](#input\_route53\_zone\_name) | This is the name of the hosted zone | `string` | `""` | no |
 | <a name="input_security_group_ingress_rules"></a> [security\_group\_ingress\_rules](#input\_security\_group\_ingress\_rules) | Map of ingress and any specific/overriding attributes to be created | `any` | <pre>{<br>  "allow_to_config_vpn": {<br>    "cidr_blocks": [<br>      "0.0.0.0/0"<br>    ],<br>    "port": "443"<br>  },<br>  "allow_to_connect_vpn": {<br>    "cidr_blocks": [<br>      "0.0.0.0/0"<br>    ],<br>    "port": "12383",<br>    "protocol": "udp"<br>  },<br>  "allow_to_ssh": {<br>    "cidr_blocks": [<br>      "0.0.0.0/0"<br>    ],<br>    "port": "22"<br>  }<br>}</pre> | no |
 | <a name="input_subnet_ids"></a> [subnet\_ids](#input\_subnet\_ids) | The List of the subnet ID to deploy vpn relate to VPC | `list(string)` | n/a | yes |
 | <a name="input_tags"></a> [tags](#input\_tags) | Tags to add more; default tags contian {terraform=true, environment=var.environment} | `map(string)` | `{}` | no |
