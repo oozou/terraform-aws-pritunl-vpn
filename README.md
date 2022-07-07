@@ -7,13 +7,26 @@ Terraform module with create instance with Pritunl VPN on AWS.
 ```terraform
 module "vpn" {
   source = "git@github.com:<repository_name>/terraform-aws-pritunl-vpn.git?ref=v0.0.0"
-  prefix      = "example"
-  environment = "dev"
-  vpc_id      = "vpc-xxx"
-  subnet_id   = "subnet-xxx"
-  key_name    = aws_key_pair.maintainer.key_name
+  prefix             = "example"
+  environment        = "dev"
+  vpc_id             = "vpc-xxx"
+  public_subnet_ids  = ["subnet-xxx", "subnet-xxx", "subnet-xxx"]
+  private_subnet_ids = ["subnet-xxx", "subnet-xxx", "subnet-xxx"]
+  instance_type             = "t3a.small"
+  is_create_route53_reccord = true
+  route53_zone_name         = "example.com"
+  public_lb_vpn_domain      = "vpn" #vpn.example.com
+  private_lb_vpn_domain     = "vpn-console" #vpn-console.example.com
+  is_enabled_https_public = true
+  security_group_ingress_rules = {
+    allow_to_connect_vpn = {
+      port        = "12383"
+      cidr_blocks = ["0.0.0.0/0"]
+      protocol    = "udp"
+    }
+  }
   tags = {
-    workspace = "900-test"
+    workspace = "local-test"
   }
 }
 ```
