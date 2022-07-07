@@ -137,3 +137,15 @@ variable "custom_https_allow_cidr" {
   type        = list(string)
   default     = null
 }
+
+variable "enabled_backup" {
+  type        = bool
+  description = "Enable Backup EFS"
+  default     = true
+}
+
+variable "efs_backup_policy_enabled" {
+  type        = bool
+  description = "If `true`, it will turn on automatic backups."
+  default     = true
+}

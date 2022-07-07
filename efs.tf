@@ -1,10 +1,12 @@
 # EFS
 module "efs" {
-  source = "git::ssh://git@github.com/oozou/terraform-aws-efs.git?ref=feat/support-ip-mount"
+  source = "git::ssh://git@github.com/oozou/terraform-aws-efs.git?ref=v1.0.1"
 
-  prefix      = var.prefix
-  environment = var.environment
-  name        = "pritunl-data"
+  prefix                    = var.prefix
+  environment               = var.environment
+  name                      = "pritunl-data"
+  enabled_backup            = var.enabled_backup
+  efs_backup_policy_enabled = var.efs_backup_policy_enabled
   access_points = {
     "data" = {
       posix_user = {
