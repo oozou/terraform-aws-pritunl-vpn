@@ -122,6 +122,42 @@ module "pritunl_vpn" {
 }
 ```
 
+## Migration
+
+### Mount New EFS to Old Pritunl VPN
+
+#### Config Security Group Client
+add security goups efs-client of new efs to old pritunl VPN
+
+- go to ec2 console
+- select old pritunl-vpn -> Actions -> Security -> Change security groups
+- add security group client for mount EFS
+
+#### Mount New EFS To Old Pritunl VPN
+
+- remote to old pritunl-vpn
+- mount EFS
+
+```shell
+sudo mkdir /efs
+sudo mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport <efs_dns_name>:/ /efs
+```
+
+### Config MongoDB
+
+#### Dump Mongodb From Old Pritunl VPN
+
+```bash
+mongodump --db=pritunl #dump
+mv dump/ /efs/dump #move dump to efs
+```
+
+#### Restore MongoDB in New Pritunl VPN
+
+```bash
+mongorestore /efs/dump
+```
+
 ![DownloadConfig](docs/user_download_vpn_file.png "user_download_vpn_file")
 
 
