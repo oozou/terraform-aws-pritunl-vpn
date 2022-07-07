@@ -1,0 +1,22 @@
+
+name: code-scan
+
+# Controls when the workflow will run
+on:
+  push:
+    branches:
+      - 'main'
+  pull_request:
+    branches:
+      - 'main'
+  workflow_dispatch:
+  
+jobs:
+
+
+  scan:
+    uses: oozou/.github/.github/workflows/code-scan.yaml@main
+    with:
+        SCAN_TYPE: IAC
+        SCAN_INCLUDE: .
+    secrets: inherit
