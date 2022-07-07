@@ -46,11 +46,12 @@ resource "aws_lb" "private" {
 }
 
 resource "aws_lb_target_group" "private" {
-  count    = length(local.private_rule)
-  name     = format("%s-private-%s", local.name, count.index)
-  port     = local.private_rule[count.index].port
-  protocol = local.private_rule[count.index].protocol
-  vpc_id   = var.vpc_id
+  count              = length(local.private_rule)
+  name               = format("%s-private-%s", local.name, count.index)
+  preserve_client_ip = false
+  port               = local.private_rule[count.index].port
+  protocol           = local.private_rule[count.index].protocol
+  vpc_id             = var.vpc_id
 }
 
 resource "aws_lb_listener" "private" {
