@@ -9,8 +9,8 @@ Here we would have the update steps for 1.1.0 for people to follow.
 ### Added
 
 - Feature
+  - support Auto Recovery when failed (with autoscaling group)
   - private instance with Public, Private Loadbalancer
-  - support Auto Recovery when failed
   - EFS for Mongo
   - Custom DNS for VPN (public, private)
   - Support AWS SSM
@@ -25,16 +25,32 @@ Here we would have the update steps for 1.1.0 for people to follow.
   - `aws_route53_record`
 
 - new variables (Optional)
-  - `cloudwatch_log_kms_key_id`
-  - `cloudwatch_log_retention_in_days`
+  - `is_create_security_group`
+  - `public_subnet_ids`
+  - `private_subnet_ids`
+  - `public_rule`
+  - `private_rule`
+  - `is_create_route53_reccord`
+  - `public_lb_vpn_domain`
+  - `private_lb_vpn_domain`
+  - `route53_zone_name`
+  - `is_enabled_https_public`
+  - `custom_https_allow_cidr`
 
 ### Changed
 
-- Rename `cluster_log_retention_in_days` to `cloudwatch_log_kms_key_id`
-
-## [1.0.1] - 2022-06-01
+- Variables
+  - `key_name` from require variable to optional (because managed by ssm)
 
 ### Removed
+
+- Resources
+  - module `terraform-aws-ec2-instance.git`
+
+- Variables
+  - `subnet_id`
+
+## [1.0.1] - 2022-06-01
 
 ### Added
 
