@@ -1,4 +1,4 @@
-#!/bin/bash -xe
+#!/bin/bash -x
 
 sudo yum update -y
 sudo yum -y install wget
@@ -11,6 +11,7 @@ elif [[ "$(python3 -V 2>&1)" =~ ^(Python 3.4.*) ]]; then
 else
     sudo wget https://bootstrap.pypa.io/get-pip.py -O /tmp/get-pip.py
 fi
+sudo python3 /tmp/get-pip.py
 sudo /usr/local/bin/pip3 install botocore
 sudo yum install -y amazon-efs-utils
 sudo mkdir /efs
