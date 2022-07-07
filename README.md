@@ -24,13 +24,30 @@ module "vpn" {
 
 ![SessionManager](docs/setup_session_manager.png "setup_session_manager")
 
+### GET Default Password
+
 ```shell
   sudo pritunl default-password # save for first login
 ```
 
-### Fill Setup Key, User from previous step
+![GetPassword](docs/setup_get_password.png "setup_get_password")
+
+### Login
 
 ![Login](docs/setup_login.png "setup_login")
+
+### Server Setting
+
+#### Require
+
+- **Public Address** : Set to `Public DNS name` or `Public Loadbalancer`  for VPN Client ACCESS
+
+#### Optional
+
+- **Username** : New Username for Connect to VPN server
+- **New Password** : New Password For For Connect to VPN server
+
+![ServerSetting](docs/setup_server_setting.png "setup_server_setting")
 
 ### Create organization
 
@@ -159,11 +176,12 @@ module "pritunl_vpn" {
 | <a name="input_prefix"></a> [prefix](#input\_prefix) | The prefix name of customer to be displayed in AWS console and resource | `string` | n/a | yes |
 | <a name="input_private_lb_vpn_domain"></a> [private\_lb\_vpn\_domain](#input\_private\_lb\_vpn\_domain) | domain of vpn console output will be <var.vpn\_domain>.<var.route53\_zone\_name> | `string` | `"vpn-console"` | no |
 | <a name="input_private_rule"></a> [private\_rule](#input\_private\_rule) | private rule for run connect vpn | <pre>list(object({<br>    port     = number<br>    protocol = string<br>  }))</pre> | `[]` | no |
+| <a name="input_private_subnet_ids"></a> [private\_subnet\_ids](#input\_private\_subnet\_ids) | The List of the private subnet ID to deploy private lb for vpn relate to VPC | `list(string)` | n/a | yes |
 | <a name="input_public_lb_vpn_domain"></a> [public\_lb\_vpn\_domain](#input\_public\_lb\_vpn\_domain) | domain of vpn output will be <var.vpn\_domain>.<var.route53\_zone\_name> | `string` | `"vpn"` | no |
 | <a name="input_public_rule"></a> [public\_rule](#input\_public\_rule) | public rule for run connect vpn | <pre>list(object({<br>    port     = number<br>    protocol = string<br>  }))</pre> | <pre>[<br>  {<br>    "port": 12383,<br>    "protocol": "UDP"<br>  }<br>]</pre> | no |
+| <a name="input_public_subnet_ids"></a> [public\_subnet\_ids](#input\_public\_subnet\_ids) | The List of the subnet ID to deploy vpn relate to VPC | `list(string)` | n/a | yes |
 | <a name="input_route53_zone_name"></a> [route53\_zone\_name](#input\_route53\_zone\_name) | This is the name of the hosted zone | `string` | `""` | no |
 | <a name="input_security_group_ingress_rules"></a> [security\_group\_ingress\_rules](#input\_security\_group\_ingress\_rules) | Map of ingress and any specific/overriding attributes to be created | `any` | <pre>{<br>  "allow_to_config_vpn": {<br>    "cidr_blocks": [<br>      "0.0.0.0/0"<br>    ],<br>    "port": "443"<br>  },<br>  "allow_to_connect_vpn": {<br>    "cidr_blocks": [<br>      "0.0.0.0/0"<br>    ],<br>    "port": "12383",<br>    "protocol": "udp"<br>  },<br>  "allow_to_ssh": {<br>    "cidr_blocks": [<br>      "0.0.0.0/0"<br>    ],<br>    "port": "22"<br>  }<br>}</pre> | no |
-| <a name="input_subnet_ids"></a> [subnet\_ids](#input\_subnet\_ids) | The List of the subnet ID to deploy vpn relate to VPC | `list(string)` | n/a | yes |
 | <a name="input_tags"></a> [tags](#input\_tags) | Tags to add more; default tags contian {terraform=true, environment=var.environment} | `map(string)` | `{}` | no |
 | <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | The ID of the VPC | `string` | n/a | yes |
 
