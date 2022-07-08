@@ -82,13 +82,15 @@ variable "ami" {
 variable "public_rule" {
   description = "public rule for run connect vpn"
   type = list(object({
-    port     = number
-    protocol = string
+    port                     = number
+    protocol                 = string
+    public_health_check_port = number
   }))
   default = [
     {
-      port     = 12383
-      protocol = "UDP"
+      port                     = 12383
+      protocol                 = "UDP"
+      public_health_check_port = 443
     }
   ]
 }
