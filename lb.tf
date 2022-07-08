@@ -18,11 +18,9 @@ resource "aws_lb_target_group" "public" {
   protocol = local.public_rule[count.index].protocol
   vpc_id   = var.vpc_id
 
-  dynamic "health_check" {
-    for_each = lookup(local.public_rule[count.index], "public_health_check_port", null) == null ? [] : [1]
-    content {
-      port = local.public_rule[count.index].public_health_check_port
-    }
+  health_check {
+    port     = lookup(local.public_rule[count.index], "health_check_port", null)
+    protocol = lookup(local.public_rule[count.index], "health_check_protocol", null)
   }
 }
 
@@ -59,6 +57,11 @@ resource "aws_lb_target_group" "private" {
   port               = local.private_rule[count.index].port
   protocol           = local.private_rule[count.index].protocol
   vpc_id             = var.vpc_id
+
+  health_check {
+    port     = lookup(local.public_rule[count.index], "health_check_port", null)
+    protocol = lookup(local.public_rule[count.index], "health_check_protocol", null)
+  }
 }
 
 resource "aws_lb_listener" "private" {
