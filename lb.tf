@@ -21,7 +21,7 @@ resource "aws_lb_target_group" "public" {
   dynamic "health_check" {
     for_each = lookup(local.public_rule[count.index], "public_health_check_port", null) == null ? [] : [1]
     content {
-      port = ocal.public_rule[count.index].public_health_check_port
+      port = local.public_rule[count.index].public_health_check_port
     }
   }
 }
