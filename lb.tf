@@ -17,6 +17,13 @@ resource "aws_lb_target_group" "public" {
   port     = local.public_rule[count.index].port
   protocol = local.public_rule[count.index].protocol
   vpc_id   = var.vpc_id
+
+  dynamic "health_check" {
+    for_each = lookup(local.public_rule[count.index], "public_health_check_port", null) == null ? [] : [1]
+    content {
+      port = ocal.public_rule[count.index].public_health_check_port
+    }
+  }
 }
 
 resource "aws_lb_listener" "public" {
