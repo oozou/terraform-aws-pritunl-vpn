@@ -14,8 +14,9 @@ fi
 sudo python3 /tmp/get-pip.py
 sudo /usr/local/bin/pip3 install botocore
 sudo yum install -y amazon-efs-utils
-sudo mkdir /efs
-sudo mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport ${efs_dns_name}:/ /efs
+sudo mkdir /mnt/efs
+echo "fs-0c9eba59b3f0cfacc:/ /mnt/efs efs _netdev,noresvport,tls,iam 0 0" | sudo tee -a /etc/fstab
+sudo mount -a
 sudo tee /etc/yum.repos.d/mongodb-org-5.0.repo << EOF
 [mongodb-org-5.0]
 name=MongoDB Repository
@@ -37,8 +38,8 @@ gpg --armor --export 7568D9BB55FF9E5287D586017AE645C0CF8E292A > key.tmp;
 sudo rpm --import key.tmp; rm -f key.tmp
 sudo yum -y install pritunl mongodb-org-5.0.9-1.amzn2
 
-sudo sed -i.bak "s/\/var\/lib\/mongo/\/efs/g" /etc/mongod.conf
-sudo chown -R mongod:mongod /efs/
+sudo sed -i.bak "s/\/var\/lib\/mongo/\/mnt\/efs/g" /etc/mongod.conf
+sudo chown -R mongod:mongod /mnt/efs/
 
 sudo systemctl start mongod pritunl
 sudo systemctl enable mongod pritunl
