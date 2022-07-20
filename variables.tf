@@ -24,14 +24,6 @@ variable "security_group_ingress_rules" {
   description = "Map of ingress and any specific/overriding attributes to be created"
   type        = any
   default = {
-    allow_to_config_vpn = {
-      port        = "443"
-      cidr_blocks = ["0.0.0.0/0"]
-    }
-    allow_to_ssh = {
-      port        = "22"
-      cidr_blocks = ["0.0.0.0/0"]
-    }
     allow_to_connect_vpn = {
       port        = "12383"
       cidr_blocks = ["0.0.0.0/0"]

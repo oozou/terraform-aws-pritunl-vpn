@@ -24,7 +24,7 @@ output "efs_id" {
 }
 
 
-output "dns_name" {
+output "efs_dns_name" {
   description = "The DNS name for the filesystem"
   value       = module.efs.dns_name
 }
