@@ -2,7 +2,7 @@
 
 All notable changes to this module will be documented in this file.
 
-## [1.1.0] - 2022-07-21
+## [1.1.0] - 2022-07-27
 
 Here we would have the update steps for 1.1.0 for people to follow.
 
