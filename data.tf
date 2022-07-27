@@ -11,3 +11,7 @@ data "aws_ami" "amazon_linux" {
   }
   owners = ["137112412989"] # amazon
 }
+
+data "aws_vpc" "this" {
+  id = var.vpc_id
+}
