@@ -147,3 +147,9 @@ variable "efs_backup_policy_enabled" {
   description = "If `true`, it will turn on automatic backups."
   default     = true
 }
+
+variable "enable_ec2_monitoring" {
+  description = "Enables/disables detailed monitoring"
+  type        = bool
+  default     = false
+}

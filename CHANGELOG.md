@@ -2,6 +2,15 @@
 
 All notable changes to this module will be documented in this file.
 
+## [1.1.1] - 2022-08-10
+
+Here we would have the update steps for 1.1.1 for people to follow.
+
+### Added
+
+- new variables (Optional)
+  - `enable_ec2_monitoring`
+
 ## [1.1.0] - 2022-07-27
 
 Here we would have the update steps for 1.1.0 for people to follow.

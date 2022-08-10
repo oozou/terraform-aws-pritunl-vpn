@@ -180,7 +180,7 @@ mongorestore /efs/dump
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_efs"></a> [efs](#module\_efs) | git::ssh://git@github.com/oozou/terraform-aws-efs.git | feat/support-ip-mount |
+| <a name="module_efs"></a> [efs](#module\_efs) | git::ssh://git@github.com/oozou/terraform-aws-efs.git | v1.0.1 |
 | <a name="module_launch_template"></a> [launch\_template](#module\_launch\_template) | git::ssh://git@github.com/oozou/terraform-aws-launch-template.git | v1.0.2 |
 
 ## Resources
@@ -216,6 +216,9 @@ mongorestore /efs/dump
 | <a name="input_additional_sg_attacment_ids"></a> [additional\_sg\_attacment\_ids](#input\_additional\_sg\_attacment\_ids) | (Optional) The ID of the security group. | `list(string)` | `[]` | no |
 | <a name="input_ami"></a> [ami](#input\_ami) | (Optional) AMI to use for the instance. Required unless launch\_template is specified and the Launch Template specifes an AMI. If an AMI is specified in the Launch Template, setting ami will override the AMI specified in the Launch Template | `string` | `""` | no |
 | <a name="input_custom_https_allow_cidr"></a> [custom\_https\_allow\_cidr](#input\_custom\_https\_allow\_cidr) | cidr block for config pritunl vpn | `list(string)` | `null` | no |
+| <a name="input_efs_backup_policy_enabled"></a> [efs\_backup\_policy\_enabled](#input\_efs\_backup\_policy\_enabled) | If `true`, it will turn on automatic backups. | `bool` | `true` | no |
+| <a name="input_enable_ec2_monitoring"></a> [enable\_ec2\_monitoring](#input\_enable\_ec2\_monitoring) | Enables/disables detailed monitoring | `bool` | `false` | no |
+| <a name="input_enabled_backup"></a> [enabled\_backup](#input\_enabled\_backup) | Enable Backup EFS | `bool` | `true` | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | Environment Variable used as a prefix | `string` | n/a | yes |
 | <a name="input_instance_type"></a> [instance\_type](#input\_instance\_type) | (Optional) The instance type to use for the instance. Updates to this field will trigger a stop/start of the EC2 instance. | `string` | `"t2.medium"` | no |
 | <a name="input_is_create_route53_reccord"></a> [is\_create\_route53\_reccord](#input\_is\_create\_route53\_reccord) | if true will create route53 reccord for vpn, vpn console | `bool` | `false` | no |
@@ -224,13 +227,13 @@ mongorestore /efs/dump
 | <a name="input_key_name"></a> [key\_name](#input\_key\_name) | Key name of the Key Pair to use for the vpn instance; which can be managed using | `string` | `null` | no |
 | <a name="input_prefix"></a> [prefix](#input\_prefix) | The prefix name of customer to be displayed in AWS console and resource | `string` | n/a | yes |
 | <a name="input_private_lb_vpn_domain"></a> [private\_lb\_vpn\_domain](#input\_private\_lb\_vpn\_domain) | domain of vpn console output will be <var.vpn\_domain>.<var.route53\_zone\_name> | `string` | `"vpn-console"` | no |
-| <a name="input_private_rule"></a> [private\_rule](#input\_private\_rule) | private rule for run connect vpn | <pre>list(object({<br>    port     = number<br>    protocol = string<br>  }))</pre> | `[]` | no |
-| <a name="input_private_subnet_ids"></a> [private\_subnet\_ids](#input\_private\_subnet\_ids) | The List of the private subnet ID to deploy private lb for vpn relate to VPC | `list(string)` | n/a | yes |
+| <a name="input_private_rule"></a> [private\_rule](#input\_private\_rule) | private rule for run connect vpn | <pre>list(object({<br>    port                  = number<br>    protocol              = string<br>    health_check_port     = number<br>    health_check_protocol = string<br>  }))</pre> | `[]` | no |
+| <a name="input_private_subnet_ids"></a> [private\_subnet\_ids](#input\_private\_subnet\_ids) | The List of the private subnet ID to deploy instance and private lb for vpn relate to VPC | `list(string)` | n/a | yes |
 | <a name="input_public_lb_vpn_domain"></a> [public\_lb\_vpn\_domain](#input\_public\_lb\_vpn\_domain) | domain of vpn output will be <var.vpn\_domain>.<var.route53\_zone\_name> | `string` | `"vpn"` | no |
-| <a name="input_public_rule"></a> [public\_rule](#input\_public\_rule) | public rule for run connect vpn | <pre>list(object({<br>    port     = number<br>    protocol = string<br>  }))</pre> | <pre>[<br>  {<br>    "port": 12383,<br>    "protocol": "UDP"<br>  }<br>]</pre> | no |
-| <a name="input_public_subnet_ids"></a> [public\_subnet\_ids](#input\_public\_subnet\_ids) | The List of the subnet ID to deploy vpn relate to VPC | `list(string)` | n/a | yes |
+| <a name="input_public_rule"></a> [public\_rule](#input\_public\_rule) | public rule for run connect vpn | <pre>list(object({<br>    port                  = number<br>    protocol              = string<br>    health_check_port     = number<br>    health_check_protocol = string<br>  }))</pre> | <pre>[<br>  {<br>    "health_check_port": 443,<br>    "health_check_protocol": "TCP",<br>    "port": 12383,<br>    "protocol": "UDP"<br>  }<br>]</pre> | no |
+| <a name="input_public_subnet_ids"></a> [public\_subnet\_ids](#input\_public\_subnet\_ids) | The List of the subnet ID to deploy Public Loadbalancer relate to VPC | `list(string)` | n/a | yes |
 | <a name="input_route53_zone_name"></a> [route53\_zone\_name](#input\_route53\_zone\_name) | This is the name of the hosted zone | `string` | `""` | no |
-| <a name="input_security_group_ingress_rules"></a> [security\_group\_ingress\_rules](#input\_security\_group\_ingress\_rules) | Map of ingress and any specific/overriding attributes to be created | `any` | <pre>{<br>  "allow_to_config_vpn": {<br>    "cidr_blocks": [<br>      "0.0.0.0/0"<br>    ],<br>    "port": "443"<br>  },<br>  "allow_to_connect_vpn": {<br>    "cidr_blocks": [<br>      "0.0.0.0/0"<br>    ],<br>    "port": "12383",<br>    "protocol": "udp"<br>  },<br>  "allow_to_ssh": {<br>    "cidr_blocks": [<br>      "0.0.0.0/0"<br>    ],<br>    "port": "22"<br>  }<br>}</pre> | no |
+| <a name="input_security_group_ingress_rules"></a> [security\_group\_ingress\_rules](#input\_security\_group\_ingress\_rules) | Map of ingress and any specific/overriding attributes to be created | `any` | <pre>{<br>  "allow_to_connect_vpn": {<br>    "cidr_blocks": [<br>      "0.0.0.0/0"<br>    ],<br>    "port": "12383",<br>    "protocol": "udp"<br>  }<br>}</pre> | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | Tags to add more; default tags contian {terraform=true, environment=var.environment} | `map(string)` | `{}` | no |
 | <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | The ID of the VPC | `string` | n/a | yes |
 
@@ -238,8 +241,10 @@ mongorestore /efs/dump
 
 | Name | Description |
 |------|-------------|
-| <a name="output_dns_name"></a> [dns\_name](#output\_dns\_name) | The DNS name for the filesystem |
+| <a name="output_efs_dns_name"></a> [efs\_dns\_name](#output\_efs\_dns\_name) | The DNS name for the filesystem |
 | <a name="output_efs_id"></a> [efs\_id](#output\_efs\_id) | The ID that identifies the file system for pritunl vpn |
 | <a name="output_lb_private_dns"></a> [lb\_private\_dns](#output\_lb\_private\_dns) | The DNS name of the private load balancer. |
 | <a name="output_lb_public_dns"></a> [lb\_public\_dns](#output\_lb\_public\_dns) | The DNS name of the public load balancer. |
+| <a name="output_vpn_private_dns"></a> [vpn\_private\_dns](#output\_vpn\_private\_dns) | private dns for connect vpn server |
+| <a name="output_vpn_public_dns"></a> [vpn\_public\_dns](#output\_vpn\_public\_dns) | public dns for connect vpn server |
 <!-- END_TF_DOCS -->
