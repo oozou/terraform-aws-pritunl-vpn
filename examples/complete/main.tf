@@ -7,13 +7,7 @@ module "vpn" {
   private_subnet_ids        = module.vpc.private_subnet_ids
   instance_type             = "t3a.small"
   is_create_route53_reccord = false
+  is_create_private_lb      = true
   is_enabled_https_public   = true
-  security_group_ingress_rules = {
-    allow_to_connect_vpn = {
-      port        = "12383"
-      cidr_blocks = ["0.0.0.0/0"]
-      protocol    = "udp"
-    }
-  }
-  tags = var.tags
+  tags                      = var.tags
 }
