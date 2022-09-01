@@ -153,3 +153,9 @@ variable "enable_ec2_monitoring" {
   type        = bool
   default     = false
 }
+
+variable "is_create_private_lb" {
+  description = "if true this module will not create private lb for cost optimization"
+  type        = bool
+  default     = true
+}

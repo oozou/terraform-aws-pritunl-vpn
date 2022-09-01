@@ -5,7 +5,7 @@ output "lb_public_dns" {
 
 output "lb_private_dns" {
   description = "The DNS name of the private load balancer."
-  value       = aws_lb.private.dns_name
+  value       = try(aws_lb.private[0].dns_name, "")
 }
 
 output "vpn_public_dns" {
@@ -14,7 +14,7 @@ output "vpn_public_dns" {
 }
 
 output "vpn_private_dns" {
-  value       = try(aws_route53_record.private[0].name, aws_lb.private.dns_name)
+  value       = try(aws_route53_record.private[0].name, try(aws_lb.private[0].dns_name, ""))
   description = "private dns for connect vpn server"
 }
 

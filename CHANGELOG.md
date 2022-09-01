@@ -2,6 +2,20 @@
 
 All notable changes to this module will be documented in this file.
 
+## [1.1.2] - 2022-08-30
+
+Here we would have the update steps for 1.1.2 for people to follow.
+
+### Added
+
+- variables
+  - `is_create_private_lb`
+- support route53 alias
+
+### Changed
+
+- change 443 health check to TCP by default
+
 ## [1.1.1] - 2022-08-10
 
 Here we would have the update steps for 1.1.1 for people to follow.

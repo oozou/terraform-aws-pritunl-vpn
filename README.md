@@ -221,6 +221,7 @@ mongorestore /efs/dump
 | <a name="input_enabled_backup"></a> [enabled\_backup](#input\_enabled\_backup) | Enable Backup EFS | `bool` | `true` | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | Environment Variable used as a prefix | `string` | n/a | yes |
 | <a name="input_instance_type"></a> [instance\_type](#input\_instance\_type) | (Optional) The instance type to use for the instance. Updates to this field will trigger a stop/start of the EC2 instance. | `string` | `"t2.medium"` | no |
+| <a name="input_is_create_private_lb"></a> [is\_create\_private\_lb](#input\_is\_create\_private\_lb) | if true this module will not create private lb for cost optimization | `bool` | `true` | no |
 | <a name="input_is_create_route53_reccord"></a> [is\_create\_route53\_reccord](#input\_is\_create\_route53\_reccord) | if true will create route53 reccord for vpn, vpn console | `bool` | `false` | no |
 | <a name="input_is_create_security_group"></a> [is\_create\_security\_group](#input\_is\_create\_security\_group) | Flag to toggle security group creation | `bool` | `true` | no |
 | <a name="input_is_enabled_https_public"></a> [is\_enabled\_https\_public](#input\_is\_enabled\_https\_public) | if true will enable https to public loadbalancer else enable to private loadbalancer | `bool` | `true` | no |
