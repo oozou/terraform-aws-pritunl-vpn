@@ -6,8 +6,9 @@ All notable changes to this module will be documented in this file.
 
 ### Changed
 
-- Update module `efs` from version `v1.0.1` to `v1.0.3`
+- Update module `efs` to be public and version `v1.0.1` to `v1.0.3`
 - Enable encryption in module `efs` with `encrypted = true`
+- Update example
 
 ## [1.1.2] - 2022-08-30
 
