@@ -180,7 +180,7 @@ mongorestore /efs/dump
 
 | Name                                                                                | Source                                                            | Version |
 |-------------------------------------------------------------------------------------|-------------------------------------------------------------------|---------|
-| <a name="module_efs"></a> [efs](#module\_efs)                                       | git::ssh://git@github.com/oozou/terraform-aws-efs.git             | v1.0.3  |
+| <a name="module_efs"></a> [efs](#module\_efs)                                       | oozou/efs/aws                                                     | 1.0.3   |
 | <a name="module_launch_template"></a> [launch\_template](#module\_launch\_template) | git::ssh://git@github.com/oozou/terraform-aws-launch-template.git | v1.0.2  |
 
 ## Resources
