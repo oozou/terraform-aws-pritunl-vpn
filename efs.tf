@@ -1,6 +1,7 @@
 # EFS
 module "efs" {
-  source = "git::ssh://git@github.com/oozou/terraform-aws-efs.git?ref=v1.0.3"
+  source  = "oozou/efs/aws"
+  version = "1.0.3"
 
   prefix                    = var.prefix
   environment               = var.environment

@@ -1,5 +1,6 @@
 module "vpc" {
-  source = "git@github.com:oozou/terraform-aws-vpc.git?ref=v1.1.7"
+  source  = "oozou/vpc/aws"
+  version = "1.1.7"
 
   prefix       = var.prefix
   environment  = var.environment
