@@ -2,6 +2,12 @@
 
 All notable changes to this module will be documented in this file.
 
+## [1.1.4] - 2022-09-08
+
+### Changed 
+
+- Update provider version to `>= 4.0.0` in both files `examples/complete/versions.tf` and `versions.tf`
+
 ## [1.1.3] - 2022-09-07
 
 ### Changed
