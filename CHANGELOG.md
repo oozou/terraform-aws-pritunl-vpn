@@ -2,6 +2,13 @@
 
 All notable changes to this module will be documented in this file.
 
+## [1.1.5] - 2022-09-27
+
+### Changed 
+
+- change launch-template module from ssh to public
+- change luach-temaplte module from version 1.1.2 to 1.1.3
+
 ## [1.1.4] - 2022-09-08
 
 ### Changed 

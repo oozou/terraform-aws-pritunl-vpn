@@ -1,6 +1,7 @@
 # Launch Configuration Template
 module "launch_template" {
-  source      = "git::ssh://git@github.com/oozou/terraform-aws-launch-template.git?ref=v1.0.2"
+  source      = "oozou/launch-template/aws"
+  version     = "1.0.3"
   prefix      = var.prefix
   environment = var.environment
   name        = "pritunl-vpn"
