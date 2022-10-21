@@ -174,7 +174,7 @@ mongorestore /efs/dump
 
 | Name                                              | Version |
 |---------------------------------------------------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.29.0  |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.36.0  |
 
 ## Modules
 
@@ -240,12 +240,14 @@ mongorestore /efs/dump
 
 ## Outputs
 
-| Name                                                                                  | Description                                            |
-|---------------------------------------------------------------------------------------|--------------------------------------------------------|
-| <a name="output_efs_dns_name"></a> [efs\_dns\_name](#output\_efs\_dns\_name)          | The DNS name for the filesystem                        |
-| <a name="output_efs_id"></a> [efs\_id](#output\_efs\_id)                              | The ID that identifies the file system for pritunl vpn |
-| <a name="output_lb_private_dns"></a> [lb\_private\_dns](#output\_lb\_private\_dns)    | The DNS name of the private load balancer.             |
-| <a name="output_lb_public_dns"></a> [lb\_public\_dns](#output\_lb\_public\_dns)       | The DNS name of the public load balancer.              |
-| <a name="output_vpn_private_dns"></a> [vpn\_private\_dns](#output\_vpn\_private\_dns) | private dns for connect vpn server                     |
-| <a name="output_vpn_public_dns"></a> [vpn\_public\_dns](#output\_vpn\_public\_dns)    | public dns for connect vpn server                      |
+| Name                                                                                           | Description                                            |
+|------------------------------------------------------------------------------------------------|--------------------------------------------------------|
+| <a name="output_efs_dns_name"></a> [efs\_dns\_name](#output\_efs\_dns\_name)                   | The DNS name for the filesystem                        |
+| <a name="output_efs_id"></a> [efs\_id](#output\_efs\_id)                                       | The ID that identifies the file system for pritunl vpn |
+| <a name="output_lb_private_dns"></a> [lb\_private\_dns](#output\_lb\_private\_dns)             | The DNS name of the private load balancer.             |
+| <a name="output_lb_public_dns"></a> [lb\_public\_dns](#output\_lb\_public\_dns)                | The DNS name of the public load balancer.              |
+| <a name="output_security_group_arn"></a> [security\_group\_arn](#output\_security\_group\_arn) | ARN of the security group associated to this ec2       |
+| <a name="output_security_group_id"></a> [security\_group\_id](#output\_security\_group\_id)    | ID of the security group associated to this ec2        |
+| <a name="output_vpn_private_dns"></a> [vpn\_private\_dns](#output\_vpn\_private\_dns)          | private dns for connect vpn server                     |
+| <a name="output_vpn_public_dns"></a> [vpn\_public\_dns](#output\_vpn\_public\_dns)             | public dns for connect vpn server                      |
 <!-- END_TF_DOCS -->
