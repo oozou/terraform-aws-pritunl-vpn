@@ -1,7 +1,7 @@
 # EFS
 module "efs" {
   source  = "oozou/efs/aws"
-  version = "1.0.3"
+  version = "1.0.4"
 
   prefix                    = var.prefix
   environment               = var.environment

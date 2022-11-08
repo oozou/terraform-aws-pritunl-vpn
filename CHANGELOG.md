@@ -2,6 +2,12 @@
 
 All notable changes to this module will be documented in this file.
 
+## [1.1.6] - 2022-11-08
+
+### Changed 
+
+- Update module `efs` to be public and version `v1.0.1` to `v1.0.4`
+
 ## [1.1.6] - 2022-10-21
 
 ### Added
@@ -13,7 +19,7 @@ All notable changes to this module will be documented in this file.
 ### Changed 
 
 - change launch-template module from ssh to public
-- change luach-temaplte module from version 1.1.2 to 1.1.3
+- change launch-temaplte module from version 1.1.2 to 1.1.3
 
 ## [1.1.4] - 2022-09-08
 

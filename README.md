@@ -180,7 +180,7 @@ mongorestore /efs/dump
 
 | Name                                                                                | Source                    | Version |
 |-------------------------------------------------------------------------------------|---------------------------|---------|
-| <a name="module_efs"></a> [efs](#module\_efs)                                       | oozou/efs/aws             | 1.0.3   |
+| <a name="module_efs"></a> [efs](#module\_efs)                                       | oozou/efs/aws             | 1.0.4   |
 | <a name="module_launch_template"></a> [launch\_template](#module\_launch\_template) | oozou/launch-template/aws | 1.0.3   |
 
 ## Resources
