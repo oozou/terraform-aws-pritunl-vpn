@@ -76,19 +76,29 @@ echo ">>> Setting up data volume for MongoDB ..."
 sudo sed -i.bak "s/\/var\/lib\/mongo/\/mnt\/efs/g" /etc/mongod.conf
 sudo chown -R mongod:mongod /mnt/efs/
 
-echo ">>> Setting up drop-in service for MongoDB"
+echo ">>> Setting up drop-in service for MongoDB and Pritunl"
 # Auto Restart MongoDB to prevent it faile to start on the first time.
 sudo mkdir -p /etc/systemd/system/mongod.d
+sudo mkdir -p /etc/systemd/system/pritunl.d
 echo "${mongodb_drop_in_service_file}" | sudo tee /etc/systemd/system/mongod.d/10-auto-restart-on-failure.conf
+echo "${pritunl_drop_in_service_file}" | sudo tee /etc/systemd/system/pritunl.d/10-auto-restart-on-failure.conf
 sudo systemctl daemon-reload
 
 echo ">>> Starting MongoDB service ..."
 sudo systemctl start mongod pritunl
 sudo systemctl enable mongod pritunl
 
+# Prevent MongoDB's crashed by db lock
+echo ">>> Delaying for MongoDB startup (1m) ..."
+sleep 60
+
 echo ">>> Starting PritunlVPN service ..."
 sudo systemctl start pritunl
 sudo systemctl enable pritunl
+
+# Prevent Pritunl Failed to start when MongoDB's failed to start
+echo ">>> Delaying for PritunlVPN startup (1m) ..."
+sleep 60
 
 echo ">>> Reconfiguring PritunlVPN ..."
 sudo pritunl set-host-id "${pritunl_host_id}"

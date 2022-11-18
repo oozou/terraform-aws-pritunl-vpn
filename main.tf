@@ -222,7 +222,8 @@ module "launch_template" {
       cloudwatch_agent_config_file = templatefile("${path.module}/templates/cloudwatch-agent-conf.json", {
         cloudwatch_metric_namespace = "EC2/pritunl-vpn"
       }),
-      mongodb_drop_in_service_file = file("${path.module}/templates/systemd-mongod-drop-in.conf"),
+      mongodb_drop_in_service_file = file("${path.module}/templates/systemd-drop-in-on-failure.conf"),
+      pritunl_drop_in_service_file = file("${path.module}/templates/systemd-drop-in-on-failure.conf"),
       pritunl_host_id              = length(var.host_id) > 0 ? var.host_id : random_string.host_id[0].result
   }))
   iam_instance_profile   = { arn : aws_iam_instance_profile.this.arn }
