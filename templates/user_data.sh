@@ -78,6 +78,7 @@ sudo chown -R mongod:mongod /mnt/efs/
 
 echo ">>> Setting up drop-in service for MongoDB"
 # Auto Restart MongoDB to prevent it faile to start on the first time.
+sudo mkdir -p /etc/systemd/system/mongod.d
 echo "${mongodb_drop_in_service_file}" | sudo tee /etc/systemd/system/mongod.d/10-auto-restart-on-failure.conf
 sudo systemctl daemon-reload
 
