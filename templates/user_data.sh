@@ -24,7 +24,7 @@ echo ">>> Reconfiguring CloudWatch Agent ..."
 sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl \
 -a fetch-config \
 -m ec2 \
--c file://tmp/cw-agent-config.json -s
+-c file:///tmp/cloudwatch-agent-config.json -s
 echo ">>> Restarting amazon-cloudwatch-agent service..."
 sudo systemctl restart amazon-cloudwatch-agent
 sudo systemctl enable amazon-cloudwatch-agent
