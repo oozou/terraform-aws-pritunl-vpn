@@ -52,7 +52,7 @@ data "aws_ami" "amazon_linux" {
 
   filter {
     name   = "name"
-    values = ["amzn2-ami-hvm-*-x86_64-gp2"]
+    values = ["amzn2-ami-*-gp2"]
   }
 
   filter {
@@ -62,6 +62,11 @@ data "aws_ami" "amazon_linux" {
 
   filter {
     name   = "root-device-type"
+    values = ["ebs"]
+  }
+
+  filter {
+    name   = "block-device-mapping.volume-type"
     values = ["gp2"]
   }
 
