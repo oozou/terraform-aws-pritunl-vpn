@@ -1,8 +1,8 @@
 #!/bin/bash -xe
 
-# Redirect stdout from user_data to console log
-# https://aws.amazon.com/premiumsupport/knowledge-center/ec2-linux-log-user-data/
-exec > >(tee /var/log/user-data.log|logger -t user-data -s 2>/dev/console) 2>&1
+# # Redirect stdout from user_data to console log
+# # https://aws.amazon.com/premiumsupport/knowledge-center/ec2-linux-log-user-data/
+# exec > >(tee /var/log/user-data.log|logger -t user-data -s 2>/dev/console) 2>&1
 
 echo "###################################################################
 # Script Name	: amazon-linux-pritunl-install.sh
