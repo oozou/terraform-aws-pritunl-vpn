@@ -62,7 +62,7 @@ gpg --keyserver hkp://keyserver.ubuntu.com --recv-keys 7568D9BB55FF9E5287D586017
 gpg --armor --export 7568D9BB55FF9E5287D586017AE645C0CF8E292A > key.tmp;
 sudo rpm --import key.tmp; rm -f key.tmp
 echo ">>> Installing PritunlVPN and MongoDB ..."
-sudo yum -y install pritunl mongodb-org-5.0.9-1.amzn2
+sudo yum -y install pritunl mongodb-org
 
 echo ">>> Setting up data volume for MongoDB ..."
 sudo sed -i.bak "s/\/var\/lib\/mongo/\/mnt\/efs/g" /etc/mongod.conf
