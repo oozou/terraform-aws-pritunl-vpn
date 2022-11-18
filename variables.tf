@@ -161,7 +161,7 @@ variable "is_create_private_lb" {
 }
 
 variable "host_id" {
-  description = "Override PritunlVPN host id with this option, Use with migration only"
+  description = "Override PritunlVPN host id with this option, Use with migration only (https://docs.pritunl.com/docs/backup)"
   type        = string
   default     = ""
 }
