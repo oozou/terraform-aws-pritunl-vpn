@@ -74,6 +74,90 @@ resource "aws_security_group_rule" "ingress" {
 }
 
 # #############################################################################
+# Generate Data
+# #############################################################################
+resource "random_string" "host_id" {
+  count = length(var.host_id) > 0 ? 0 : 1
+
+  numeric = true
+  lower   = true
+  upper   = false
+  length  = 32
+  special = false
+}
+
+# #############################################################################
+# IAM Roles
+# #############################################################################
+data "aws_iam_policy_document" "this" {
+  statement {
+    sid       = "IamPassRole"
+    actions   = ["iam:PassRole"]
+    resources = ["*"]
+    condition {
+      test     = "StringEquals"
+      variable = "iam:PassedToService"
+      values   = ["ec2.amazonaws.com"]
+    }
+  }
+  statement {
+    sid = "ListEc2AndListInstanceProfiles"
+    actions = [
+      "iam:ListInstanceProfiles",
+      "ec2:Describe*",
+      "ec2:Search*",
+      "ec2:Get*"
+    ]
+    resources = ["*"]
+    condition {
+      test     = "StringEquals"
+      variable = "iam:PassedToService"
+      values   = ["ec2.amazonaws.com"]
+    }
+  }
+}
+
+data "aws_iam_policy_document" "this_assume_role" {
+  statement {
+    actions = ["sts:AssumeRole"]
+
+    principals {
+      type        = "Service"
+      identifiers = ["ec2.amazonaws.com"]
+    }
+  }
+}
+
+resource "aws_iam_role" "this" {
+  name               = format("%s-role", local.name)
+  path               = "/"
+  assume_role_policy = data.aws_iam_policy_document.this_assume_role.json
+}
+
+resource "aws_iam_role_policy" "this" {
+  name = format("%s-policy", local.name)
+  role = aws_iam_role.this.id
+
+  policy = data.aws_iam_policy_document.this.json
+}
+
+resource "aws_iam_role_policy_attachment" "this" {
+  count      = length(local.profile_policy_arns)
+  role       = aws_iam_role.this.name
+  policy_arn = local.profile_policy_arns[count.index]
+}
+
+resource "aws_iam_instance_profile" "this" {
+  name = format("%s-profile", local.name)
+  role = aws_iam_role.this.name
+}
+
+resource "aws_iam_role_policy_attachment" "cloudwatch_agent" {
+  role       = aws_iam_role.this.name
+  policy_arn = "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy"
+}
+
+# #############################################################################
 # Laucn Template
 # #############################################################################
 module "launch_template" {
@@ -84,7 +168,12 @@ module "launch_template" {
   name        = "pritunl-vpn"
   user_data = base64encode(templatefile("${path.module}/templates/user_data.sh",
     {
-      efs_id = module.efs.id
+      efs_id = module.efs.id,
+      cloudwatch_agent_config_file = templatefile("${path.module}/templates/cloudwatch-agent-conf.json", {
+        cloudwatch_metric_namespace = "EC2/pritunl-vpn"
+      }),
+      mongodb_drop_in_service_file = file("${path.module}/templates/systemd-mongod-drop-in.conf"),
+      pritunl_host_id              = length(var.host_id) > 0 ? var.host_id : random_string.host_id[0].result
   }))
   iam_instance_profile   = { arn : aws_iam_instance_profile.this.arn }
   ami_id                 = var.ami == "" ? data.aws_ami.amazon_linux.id : var.ami
