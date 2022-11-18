@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash -xe
 
 # # Redirect stdout from user_data to console log
 # # https://aws.amazon.com/premiumsupport/knowledge-center/ec2-linux-log-user-data/

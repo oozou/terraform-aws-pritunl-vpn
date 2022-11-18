@@ -52,17 +52,12 @@ data "aws_ami" "amazon_linux" {
 
   filter {
     name   = "name"
-    values = ["amzn2-ami-hvm-*-x86_64-gp2"]
+    values = ["amzn2-ami-kernel-5.10-hvm-*"]
   }
 
   filter {
     name   = "architecture"
     values = ["x86_64"]
-  }
-
-  filter {
-    name   = "root-device-type"
-    values = ["ebs"]
   }
 
   filter {
@@ -75,7 +70,12 @@ data "aws_ami" "amazon_linux" {
     values = ["hvm"]
   }
 
-  owners = ["amazon"]
+  filter {
+    name   = "owner-alias"
+    values = ["amazon"]
+  }
+
+  owners = [137112412989] # amazon account id
 }
 
 # #############################################################################
