@@ -47,22 +47,9 @@ echo "${efs_id}:/ /mnt/efs efs _netdev,noresvport,tls,iam 0 0" | sudo tee -a /et
 sudo mount -a
 
 echo ">>> Adding MongoDB Repository to package manager ..."
-sudo tee /etc/yum.repos.d/mongodb-org-5.0.repo << EOF
-[mongodb-org-5.0]
-name=MongoDB Repository
-baseurl=https://repo.mongodb.org/yum/amazon/2/mongodb-org/5.0/x86_64/
-gpgcheck=1
-enabled=1
-gpgkey=https://www.mongodb.org/static/pgp/server-5.0.asc
-EOF
+echo '${mongodb_repo_list_file}' | sudo tee /etc/yum.repos.d/mongodb-org-5.0.repo
 echo ">>> Adding MongoDB Repository to package manager ..."
-sudo tee /etc/yum.repos.d/pritunl.repo << EOF
-[pritunl]
-name=Pritunl Repository
-baseurl=https://repo.pritunl.com/stable/yum/amazonlinux/2/
-gpgcheck=1
-enabled=1
-EOF
+echo '${pritunl_repo_list_file}' | sudo tee /etc/yum.repos.d/pritunl.repo
 
 echo ">>> Adding Keys for package manager ..."
 sudo rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm

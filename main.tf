@@ -51,7 +51,7 @@ data "aws_ami" "amazon_linux" {
   most_recent = true
   filter {
     name   = "name"
-    values = ["amzn2-ami-kernel-5.10-hvm-*"]
+    values = ["amzn2-ami-*-hvm-*-x86_64-ebs"]
   }
 
   filter {
@@ -218,10 +218,12 @@ module "launch_template" {
   name        = "pritunl-vpn"
   user_data = base64encode(templatefile("${path.module}/templates/user_data.sh",
     {
-      efs_id = module.efs.id,
       cloudwatch_agent_config_file = templatefile("${path.module}/templates/cloudwatch-agent-conf.json", {
         cloudwatch_metric_namespace = "EC2/pritunl-vpn"
       }),
+      efs_id                       = module.efs.id,
+      mongodb_repo_list_file       = file("${path.module}/templates/mongodb-repo.list"),
+      pritunl_repo_list_file       = file("${path.module}/templates/pritunl-repo.list"),
       mongodb_drop_in_service_file = file("${path.module}/templates/systemd-drop-in-on-failure.conf"),
       pritunl_drop_in_service_file = file("${path.module}/templates/systemd-drop-in-on-failure.conf"),
       pritunl_host_id              = length(var.host_id) > 0 ? var.host_id : random_string.host_id[0].result
