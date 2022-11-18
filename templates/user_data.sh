@@ -16,7 +16,6 @@ echo ">>> Installing SSM Agent ..."
 sudo yum install -y https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/linux_amd64/amazon-ssm-agent.rpm
 echo ">>> Enabling SSM Agent ..."
 sudo systemctl start amazon-ssm-agent
-sudo systemctl enable amazon-ssm-agent
 
 echo ">>> Installing CloudWatch Agent ..."
 sudo yum install -y amazon-cloudwatch-agent
