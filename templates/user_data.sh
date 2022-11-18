@@ -1,4 +1,4 @@
-#!/bin/bash -xe
+#!/bin/bash -x
 
 # # Redirect stdout from user_data to console log
 # # https://aws.amazon.com/premiumsupport/knowledge-center/ec2-linux-log-user-data/
@@ -20,12 +20,12 @@ sudo systemctl enable amazon-ssm-agent
 
 echo ">>> Installing CloudWatch Agent ..."
 sudo yum install -y amazon-cloudwatch-agent
-echo '${cloudwatch_agent_config_file}' > cloudwatch-agent-config.json
+echo '${cloudwatch_agent_config_file}' | sudo tee /tmp/cloudwatch-agent-config.json
 echo ">>> Reconfiguring CloudWatch Agent ..."
 sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl \
 -a fetch-config \
 -m ec2 \
--c file:cw-agent-config.json -s
+-c file://tmp/cw-agent-config.json -s
 echo ">>> Restarting amazon-cloudwatch-agent service..."
 sudo systemctl restart amazon-cloudwatch-agent
 sudo systemctl enable amazon-cloudwatch-agent
