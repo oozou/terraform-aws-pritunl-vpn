@@ -88,7 +88,7 @@ data "aws_ami" "amazon_linux" {
 # #############################################################################
 module "efs" {
   source  = "oozou/efs/aws"
-  version = "1.0.4"
+  version = "1.0.5"
 
   prefix                    = var.prefix
   environment               = var.environment
