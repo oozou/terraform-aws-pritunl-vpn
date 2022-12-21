@@ -86,6 +86,46 @@ data "aws_ami" "amazon_linux" {
 # #############################################################################
 # EFS Storage
 # #############################################################################
+data "aws_iam_policy_document" "allow_access_efs_policy" {
+  statement {
+    actions = [
+      "elasticfilesystem:ClientRootAccess",
+      "elasticfilesystem:ClientWrite"
+    ]
+    principals {
+      type        = "AWS"
+      identifiers = ["*"]
+    }
+    resources = ["*"]
+    condition {
+      test     = "Bool"
+      variable = "elasticfilesystem:AccessedViaMountTarget"
+
+      values = [
+        "true"
+      ]
+    }
+  }
+
+  statement {
+    effect  = "Deny"
+    actions = ["*"]
+    principals {
+      type        = "AWS"
+      identifiers = ["*"]
+    }
+    resources = ["*"]
+    condition {
+      test     = "Bool"
+      variable = "aws:SecureTransport"
+
+      values = [
+        "false"
+      ]
+    }
+  }
+}
+
 module "efs" {
   source  = "oozou/efs/aws"
   version = "1.0.5"
@@ -113,7 +153,7 @@ module "efs" {
   vpc_id  = var.vpc_id
   subnets = var.private_subnet_ids
 
-  additional_efs_resource_policies = []
+  additional_efs_resource_policies = [data.aws_iam_policy_document.allow_access_efs_policy.json]
 
   tags = var.tags
 }
