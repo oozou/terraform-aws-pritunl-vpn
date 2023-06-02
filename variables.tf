@@ -166,6 +166,12 @@ variable "is_create_private_lb" {
   default     = true
 }
 
+variable "network_interfaces" {
+  description = "Customize network interfaces to be attached at instance boot time"
+  type        = list(any)
+  default     = []
+}
+
 variable "host_id" {
   description = "Override PritunlVPN host id with this option, Use with migration only (https://docs.pritunl.com/docs/backup)"
   type        = string

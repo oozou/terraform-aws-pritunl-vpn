@@ -290,6 +290,7 @@ module "launch_template" {
       pritunl_drop_in_service_file = file("${path.module}/templates/systemd-drop-in-on-failure.conf"),
       pritunl_host_id              = length(var.host_id) > 0 ? var.host_id : random_string.host_id[0].result
   }))
+  network_interfaces     = var.network_interfaces
   iam_instance_profile   = { arn : aws_iam_instance_profile.this.arn }
   ami_id                 = var.ami == "" ? data.aws_ami.amazon_linux.id : var.ami
   key_name               = var.key_name
