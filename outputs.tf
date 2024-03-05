@@ -37,3 +37,13 @@ output "security_group_arn" {
   description = "ARN of the security group associated to this ec2"
   value       = try(aws_security_group.this[0].arn, "")
 }
+
+output "aws_lb_public_arn" {
+  description = "ARN of the application loadbalancer"
+  value       = aws_lb.public.arn
+}
+
+output "aws_lb_private_arn" {
+  description = "ARN of the application loadbalancer"
+  value       = aws_lb.private.arn
+}
