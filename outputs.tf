@@ -40,12 +40,12 @@ output "security_group_arn" {
 
 output "aws_lb_public_arn" {
   description = "ARN of the application loadbalancer"
-  value       = aws_lb.public[0].arn
+  value       = aws_lb.public.arn
 }
 
 output "aws_lb_private_arn" {
   description = "ARN of the application loadbalancer"
-  value       = aws_lb.private[0].arn
+  value       = try(aws_lb.private[0].arn, "")
 }
 
 output "aws_lb_public_zone_id" {
@@ -55,5 +55,5 @@ output "aws_lb_public_zone_id" {
 
 output "aws_lb_private_zone_id" {
   description = "zone id of the application loadbalancer"
-  value       = aws_lb.private.zone_id
+  value       = try(aws_lb.private[0].zone_id, "")
 }
