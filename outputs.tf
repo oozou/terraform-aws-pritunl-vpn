@@ -47,3 +47,13 @@ output "aws_lb_private_arn" {
   description = "ARN of the application loadbalancer"
   value       = aws_lb.private.arn
 }
+
+output "aws_lb_public_zone_id" {
+  description = "zone id of the application loadbalancer"
+  value       = aws_lb.public.zone_id
+}
+
+output "aws_lb_private_zone_id" {
+  description = "zone id of the application loadbalancer"
+  value       = aws_lb.private.zone_id
+}
