@@ -1,0 +1,111 @@
+{
+  "agent": {
+    "metrics_collection_interval": 10
+  },
+  "logs": {
+    "logs_collected": {
+      "files": {
+        "collect_list": [
+          {
+            "file_path": "/var/log/messages",
+            "log_group_name": "/aws/ec2/pritunl-vpn",
+            "log_stream_name": "syslog",
+            "timestamp_format": "%H: %M: %S%y%b%-d"
+          },
+          {
+            "file_path": "/var/log/pritunl.log",
+            "log_group_name": "/aws/ec2/pritunl-vpn",
+            "log_stream_name": "pritunl",
+            "timestamp_format": "%H: %M: %S%y%b%-d"
+          },
+          {
+            "file_path": "/var/log/mongodb/mongod.log",
+            "log_group_name": "/aws/ec2/pritunl-vpn",
+            "log_stream_name": "mongod",
+            "timestamp_format": "%H: %M: %S%y%b%-d"
+          }
+        ]
+      }
+    }
+  },
+  "metrics": {
+    "namespace": "${cloudwatch_metric_namespace}",
+    "append_dimensions": {
+      "AutoScalingGroupName": "$${aws:AutoScalingGroupName}",
+      "ImageId": "$${aws:ImageId}",
+      "InstanceId": "$${aws:InstanceId}",
+      "InstanceType": "$${aws:InstanceType}",
+      "InstanceRole": "gitlab-runner"
+    },
+    "aggregation_dimensions": [
+      [
+        "InstanceType",
+        "AutoScalingGroupName"
+      ],
+      [
+        "InstanceId",
+        "InstanceType"
+      ],
+      [
+        "InstanceId"
+      ],
+      [
+        "InstanceRole"
+      ]
+    ],
+    "metrics_collected": {
+      "cpu": {
+        "measurement": [
+          "usage_idle",
+          "usage_iowait",
+          "usage_user",
+          "usage_system"
+        ]
+      },
+      "disk": {
+        "resources": [
+          "/",
+          "/tmp"
+        ],
+        "measurement": [
+          "used_percent",
+          "inodes_free"
+        ],
+        "ignore_file_system_types": [
+          "sysfs",
+          "devtmpfs"
+        ]
+      },
+      "diskio": {
+        "measurement": [
+          "io_time",
+          "write_bytes",
+          "read_bytes",
+          "writes",
+          "reads"
+        ]
+      },
+      "mem": {
+        "measurement": [
+          "available",
+          "available_percent",
+          "used",
+          "used_percent"
+        ]
+      },
+      "netstat": {
+        "measurement": [
+          "tcp_established",
+          "tcp_time_wait"
+        ]
+      },
+      "swap": {
+        "measurement": [
+          "used",
+          "free",
+          "used_percent"
+        ]
+      }
+    }
+  }
+}

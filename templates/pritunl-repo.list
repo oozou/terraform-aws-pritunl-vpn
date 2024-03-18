@@ -1,0 +1,5 @@
+[pritunl]
+name=Pritunl Repository
+baseurl=https://repo.pritunl.com/stable/yum/amazonlinux/2/
+gpgcheck=1
+enabled=1
