@@ -36,6 +36,9 @@ sudo rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch
 gpg --keyserver hkp://keyserver.ubuntu.com --recv-keys 7568D9BB55FF9E5287D586017AE645C0CF8E292A
 gpg --armor --export 7568D9BB55FF9E5287D586017AE645C0CF8E292A > key.tmp;
 sudo rpm --import key.tmp; rm -f key.tmp
+sudo wget https://rpmfind.net/linux/epel/8/Everything/x86_64/Packages/p/pkcs11-helper-1.22-7.el8.x86_64.rpm
+sudo yum install pkcs11-helper-1.22-7.el8.x86_64.rpm
+sudo rm -f pkcs11-helper-1.22-7.el8.x86_64.rpm
 sudo yum -y install pritunl mongodb-org-5.0.9-1.amzn2
 
 sudo sed -i.bak "s/\/var\/lib\/mongo/\/mnt\/efs/g" /etc/mongod.conf
