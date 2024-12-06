@@ -32,6 +32,25 @@ variable "security_group_ingress_rules" {
   }
 }
 
+variable "access_points" {
+  description = "Map of access point UID/GID configurations"
+  type        = any
+  default = {
+    "data" = {
+      posix_user = {
+        gid            = "1001"
+        uid            = "5000"
+        secondary_gids = "1002,1003"
+      }
+      creation_info = {
+        gid         = "1001"
+        uid         = "5000"
+        permissions = "0755"
+      }
+    }
+  }
+}
+
 variable "is_create_security_group" {
   description = "Flag to toggle security group creation"
   type        = bool
