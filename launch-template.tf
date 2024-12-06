@@ -9,6 +9,7 @@ module "launch_template" {
     {
       efs_id              = module.efs.id
       efs_access_point_id = module.efs.access_point_ids["data"]
+      domain              = var.route53_zone_name
   }))
   iam_instance_profile   = { arn : aws_iam_instance_profile.this.arn }
   ami_id                 = var.ami == "" ? data.aws_ami.amazon_linux.id : var.ami

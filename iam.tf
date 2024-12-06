@@ -24,6 +24,25 @@ data "aws_iam_policy_document" "this" {
       values   = ["ec2.amazonaws.com"]
     }
   }
+  statement {
+    sid    = "Route53List"
+    effect = "Allow"
+    actions = [
+      "route53:ListHostedZones",
+      "route53:GetChange"
+    ]
+    resources = ["*"]
+  }
+  statement {
+    sid    = "Route53Change"
+    effect = "Allow"
+    actions = [
+      "route53:ChangeResourceRecordSets"
+    ]
+    resources = [
+      data.aws_route53_zone.this[0].arn
+    ]
+  }
 }
 
 data "aws_iam_policy_document" "this_assume_role" {

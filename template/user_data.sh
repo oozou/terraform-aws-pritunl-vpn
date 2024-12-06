@@ -1,7 +1,8 @@
 #!/bin/bash -x
 
+sudo amazon-linux-extras install -y epel
 sudo yum update -y
-sudo yum -y install wget
+sudo yum install -y wget certbot python2-certbot-dns-route53
 if [[ "$(python3 -V 2>&1)" =~ ^(Python 3.6.*) ]]; then
     sudo wget https://bootstrap.pypa.io/pip/3.6/get-pip.py -O /tmp/get-pip.py
 elif [[ "$(python3 -V 2>&1)" =~ ^(Python 3.5.*) ]]; then
@@ -43,6 +44,8 @@ sudo yum -y install pritunl mongodb-org-5.0.9-1.amzn2
 
 sudo sed -i.bak "s/\/var\/lib\/mongo/\/mnt\/efs/g" /etc/mongod.conf
 sudo chown -R mongod:mongod /mnt/efs/
+
+sudo certbot certonly --dns-route53 --dns-route53-propagation-seconds 30 -m devops@eaze.com --agree-tos -n -d vpn.${domain} -d vpn-console.${domain}
 
 sudo systemctl start mongod pritunl
 sudo systemctl enable mongod pritunl
