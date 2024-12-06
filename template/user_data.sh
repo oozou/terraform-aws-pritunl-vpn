@@ -15,7 +15,7 @@ sudo python3 /tmp/get-pip.py
 sudo /usr/local/bin/pip3 install botocore
 sudo yum install -y amazon-efs-utils
 sudo mkdir /mnt/efs
-echo "${efs_id}:/ /mnt/efs efs _netdev,noresvport,tls,iam 0 0" | sudo tee -a /etc/fstab
+echo "${efs_id}:/ /mnt/efs efs _netdev,noresvport,tls,iam,accesspoint=${efs_access_point_id} 0 0" | sudo tee -a /etc/fstab
 sudo mount -a
 sudo tee /etc/yum.repos.d/mongodb-org-5.0.repo << EOF
 [mongodb-org-5.0]
