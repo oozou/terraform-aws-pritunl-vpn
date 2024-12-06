@@ -47,6 +47,9 @@ sudo chown -R mongod:mongod /mnt/efs/
 
 sudo certbot certonly --dns-route53 --dns-route53-propagation-seconds 30 -m devops@eaze.com --agree-tos -n -d vpn.${domain} -d vpn-console.${domain}
 
+sudo pritunl set app.server_cert "$(cat /etc/letsencrypt/live/vpn.${domain}/cert.pem)"
+sudo pritunl set app.server_key "$(cat /etc/letsencrypt/live/vpn.${domain}/privkey.pem)"
+
 sudo systemctl start mongod pritunl
 sudo systemctl enable mongod pritunl
 sudo pritunl set-mongodb mongodb://localhost:27017/pritunl
