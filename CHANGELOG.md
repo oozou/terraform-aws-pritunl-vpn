@@ -2,7 +2,25 @@
 
 All notable changes to this module will be documented in this file.
 
-## [1.1.6] - 2022-11-08
+## [1.3.1] - 2025-03-31
+
+### Updated
+
+- Change AMI owner
+
+## [1.3.0] - 2024-09-25
+
+### Added
+
+- Install packages libpkcs11-helper.so.1()(64bit) to user-data.sh
+
+## [1.2.2] - 2022-11-08
+
+### Changed 
+
+- update output alb
+  
+## [1.1.7] - 2022-11-08
 
 ### Changed 
 
