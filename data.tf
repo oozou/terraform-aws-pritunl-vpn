@@ -9,7 +9,7 @@ data "aws_ami" "amazon_linux" {
     name   = "virtualization-type"
     values = ["hvm"]
   }
-  owners = ["137112412989"] # amazon
+  owners = ["*"] # amazon
 }
 
 data "aws_vpc" "this" {
