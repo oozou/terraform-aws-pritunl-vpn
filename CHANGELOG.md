@@ -2,7 +2,7 @@
 
 All notable changes to this module will be documented in this file.
 
-## [1.3.1] - 2025-03-31
+## [1.3.2] - 2025-03-31
 
 ### Updated
 
