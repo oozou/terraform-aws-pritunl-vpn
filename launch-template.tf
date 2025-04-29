@@ -13,7 +13,8 @@ module "launch_template" {
   ami_id                 = var.ami == "" ? data.aws_ami.amazon_linux.id : var.ami
   key_name               = var.key_name
   instance_type          = var.instance_type
-  vpc_security_group_ids = local.security_group_ids
+  vpc_security_group_ids = local.vpc_security_group_ids
   enable_monitoring      = var.enable_ec2_monitoring
+  network_interfaces     = local.network_interfaces
   tags                   = local.tags
 }
