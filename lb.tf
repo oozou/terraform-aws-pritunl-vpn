@@ -1,5 +1,6 @@
 # LoadBalancer Public
 resource "aws_lb" "public" {
+  count              = var.is_create_lb ? 1 : 0
   name               = format("%s-public-lb", local.name)
   internal           = false
   load_balancer_type = "network"
@@ -12,7 +13,7 @@ resource "aws_lb" "public" {
 }
 
 resource "aws_lb_target_group" "public" {
-  count    = length(local.public_rule)
+  count    = var.is_create_lb ? length(local.public_rule) : 0
   name     = format("%s-public-%s", local.name, count.index)
   port     = local.public_rule[count.index].port
   protocol = local.public_rule[count.index].protocol
@@ -25,8 +26,8 @@ resource "aws_lb_target_group" "public" {
 }
 
 resource "aws_lb_listener" "public" {
-  count             = length(local.public_rule)
-  load_balancer_arn = aws_lb.public.arn
+  count             = var.is_create_lb ? length(local.public_rule) : 0
+  load_balancer_arn = aws_lb.public[0].arn
   port              = local.public_rule[count.index].port
   protocol          = local.public_rule[count.index].protocol
 

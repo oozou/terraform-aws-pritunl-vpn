@@ -1,6 +1,6 @@
 output "lb_public_dns" {
   description = "The DNS name of the public load balancer."
-  value       = aws_lb.public.dns_name
+  value       = try(aws_lb.public[0].dns_name, "")
 }
 
 output "lb_private_dns" {
@@ -9,7 +9,7 @@ output "lb_private_dns" {
 }
 
 output "vpn_public_dns" {
-  value       = try(aws_route53_record.public[0].name, aws_lb.public.dns_name)
+  value       = try(aws_route53_record.public[0].name, try(aws_lb.public[0].dns_name, ""))
   description = "public dns for connect vpn server"
 }
 
@@ -40,7 +40,7 @@ output "security_group_arn" {
 
 output "aws_lb_public_arn" {
   description = "ARN of the application loadbalancer"
-  value       = aws_lb.public.arn
+  value       = try(aws_lb.public[0].arn, "")
 }
 
 output "aws_lb_private_arn" {
@@ -50,7 +50,7 @@ output "aws_lb_private_arn" {
 
 output "aws_lb_public_zone_id" {
   description = "zone id of the application loadbalancer"
-  value       = aws_lb.public.zone_id
+  value       = try(aws_lb.public[0].zone_id, "")
 }
 
 output "aws_lb_private_zone_id" {

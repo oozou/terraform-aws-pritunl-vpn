@@ -2,6 +2,14 @@
 
 All notable changes to this module will be documented in this file.
 
+## [1.4.0] - 2025-04-29
+
+### Added
+
+- Example: without_alb
+- Add public alb condition to support creating pritunl vpn without Public ALB
+- Support create pritunl vpn ec2 on public subnet
+
 ## [1.3.2] - 2025-03-31
 
 ### Updated

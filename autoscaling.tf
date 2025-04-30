@@ -1,7 +1,7 @@
 # Auto Scaling Group
 resource "aws_autoscaling_group" "this" {
   name_prefix         = local.name
-  vpc_zone_identifier = var.private_subnet_ids
+  vpc_zone_identifier = local.vpc_zone_identifier
   desired_capacity    = 1
   max_size            = 1 #fix 1 to avoid race condition (if not move to document db for multi read/write)
   min_size            = 1

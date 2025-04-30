@@ -154,8 +154,20 @@ variable "enable_ec2_monitoring" {
   default     = false
 }
 
-variable "is_create_private_lb" {
-  description = "if true this module will not create private lb for cost optimization"
+variable "is_create_lb" {
+  description = "if false this module will not alb for cost optimization and create ec2 on public subnet"
   type        = bool
   default     = true
+}
+
+variable "is_create_private_lb" {
+  description = "if false this module will not create private lb for cost optimization"
+  type        = bool
+  default     = true
+}
+
+variable "network_interfaces" {
+  description = "Customize network interfaces to be attached at instance boot time"
+  type        = list(any)
+  default     = []
 }
