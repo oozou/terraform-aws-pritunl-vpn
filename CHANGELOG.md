@@ -2,6 +2,12 @@
 
 All notable changes to this module will be documented in this file.
 
+## [1.4.0] - 2025-08-27
+
+### Updated
+
+- Update template module version to 1.0.4
+- 
 ## [1.4.0] - 2025-04-29
 
 ### Added
