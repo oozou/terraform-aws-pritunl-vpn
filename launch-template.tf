@@ -1,7 +1,7 @@
 # Launch Configuration Template
 module "launch_template" {
   source      = "oozou/launch-template/aws"
-  version     = "1.0.3"
+  version     = "1.0.4"
   prefix      = var.prefix
   environment = var.environment
   name        = "pritunl-vpn"
